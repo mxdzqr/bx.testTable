@@ -1,10 +1,16 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Мебельная компания");
-?><p>
-Наша компания существует на Российском рынке с 1992 года. За это время «Мебельная компания» прошла большой путь от маленькой торговой фирмы до одного из крупнейших производителей корпусной мебели в России.
-</p><p>
-«Мебельная компания» осуществляет производство мебели на высококлассном оборудовании с применением минимальной доли ручного труда, что позволяет обеспечить высокое качество нашей продукции. Налажен производственный процесс как массового и индивидуального характера, что с одной стороны позволяет обеспечить постоянную номенклатуру изделий и индивидуальный подход – с другой.
-
-
-</p><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+$APPLICATION->SetTitle("Main");
+?><?$APPLICATION->IncludeComponent(
+	"mxdzqr:table.list",
+	"",
+	Array(
+		"CACHE_GROUPS" => "N",
+		"CACHE_TIME" => "36000000",
+		"CACHE_TYPE" => "N",
+		"IBLOCK_ID" => "5",
+		"IBLOCK_TYPE" => "test",
+		"PROPERTY_CODE" => array("GENERAL_INCOME","GENERAL_EXPENSES","NUM_PEOPLE",""),
+		"SORT" => "ASC"
+	)
+);?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
