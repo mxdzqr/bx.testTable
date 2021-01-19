@@ -22,15 +22,6 @@ if ($arParams["IBLOCK_TYPE"] == '')
     $arParams["IBLOCK_TYPE"] = "news";
 $arParams["IBLOCK_ID"] = trim($arParams["IBLOCK_ID"]);
 
-if (!preg_match('/^(asc|desc|nulls)(,asc|,desc|,nulls){0,1}$/i', $arParams["SORT"]))
-    $arParams["SORT"]="DESC";
-
-if (empty($arParams["PROPERTY_CODE"]) || !is_array($arParams["PROPERTY_CODE"]))
-    $arParams["PROPERTY_CODE"] = array();
-foreach ($arParams["PROPERTY_CODE"] as $key=>$val)
-    if ($val==="")
-        unset($arParams["PROPERTY_CODE"][$key]);
-
 if ($this->startResultCache(false, array(($arParams["CACHE_GROUPS"]==="N"? false: $USER->GetGroups())))) {
 
     if (!Loader::includeModule("iblock")) {
@@ -53,16 +44,19 @@ if ($this->startResultCache(false, array(($arParams["CACHE_GROUPS"]==="N"? false
     }
 
     $arResult["ITEMS"] = array();
-    $arSelect = array("ID", "IBLOCK_ID", "NAME", "DATE_ACTIVE_FROM", "PROPERTY_*");
+    $arSelect = array("ID", "IBLOCK_ID", "NAME");
     $arFilter = array("IBLOCK_ID" => $arParams["IBLOCK_ID"], "ACTIVE_DATE" => "Y", "ACTIVE" => "Y");
     $res = CIBlockElement::GetList(array(), $arFilter, false, false, $arSelect);
+
     while ($ob = $res->GetNextElement()) {
         $item = $ob->GetFields();
         $arResult["ITEMS"][$item['ID']] = $item;
         $arResult["ITEMS"][$item['ID']]['PROPERTY'] = $ob->GetProperties();
     }
-//    $this->setResultCacheKeys(array(
-//        "ID",
-//    ));
+    
+    $this->setResultCacheKeys(array(
+        "ITEMS",
+    ));
+
     $this->includeComponentTemplate();
 }
