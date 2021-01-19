@@ -53,7 +53,7 @@ if ($this->startResultCache(false, array(($arParams["CACHE_GROUPS"]==="N"? false
         $arResult["ITEMS"][$item['ID']] = $item;
         $arResult["ITEMS"][$item['ID']]['PROPERTY'] = $ob->GetProperties();
     }
-    
+
     $this->setResultCacheKeys(array(
         "ITEMS",
     ));
